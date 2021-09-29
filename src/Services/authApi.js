@@ -12,7 +12,7 @@ export const signInWithFireBase = async(email,password) =>{
      await signInWithEmailAndPassword(authFirebase,email,password)
     .then((userData) => {
       // signed in
-     alert(`${email} already exists`);
+     alert(`User ${email} already exists`);
      
     })
     .catch((error) => {
