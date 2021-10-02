@@ -1,4 +1,4 @@
-import firebase, { auth } from 'firebase/compat/app';
+import firebase from 'firebase/compat/app';
 import {getAuth} from 'firebase/auth'
 // require('firebase/auth')
 
