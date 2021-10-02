@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import Signup from "../Signup";
-import { Link, withRouter } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, withRouter ,useHistory} from "react-router-dom";
 import Button from "react-bootstrap/Button";
-import { useFormik } from "formik";
-import app from '../../firebase';
-import { signInWithFireBase } from "../../Services/authApi";
-import { authFirebase } from '../../firebase'
+import { ErrorMessage, useFormik } from "formik";
+// import app from '../../firebase';
+import {requestApi,errorMessageValue,signInWithFireBase} from "../../Services/authApi";
+// import { authFirebase } from '../../firebase'
 import "bootstrap/dist/css/bootstrap.min.css";
-import {signInWithEmailAndPassword } from "firebase/auth";
+// import {signInWithEmailAndPassword } from "firebase/auth";
 import "./index.css";
-import { async } from "@firebase/util";
- 
+import { storeData } from "../../storage/storeData";
 
+ 
+// validations 
 const validate = (values) => {
   const errors = {};
   if (!values.email) {
@@ -25,40 +25,72 @@ const validate = (values) => {
   return errors;
 };
 
+export let accessTokenId = ""
+console.log(accessTokenId)
+
+// react functional component
 function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState();
+  const [errorMessage, setErrorMessage] = useState("");
 
-  
+  let history = useHistory()
 
+  let errorMsg = ""
+  // formik validations
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
+      errorMessage: ""
     },
     validate,
     onSubmit: (values) => {
-      
-      // console.log(values, "onSUbmit");
-      const {email, password} = values;
-      // alert(JSON.stringify(email, password));
-       
+      const {email, password} = values;       
       setEmail(values.email);
       setPassword(values.password);
+      // setErrorMessage(errorMessageValue)
       login(values.email, values.password);
     },
   });
-
+  
+  // on click login
   const login = (email, password) => {
-    // console.log(email, password);
-    alert("Login Successfull");
-    signInWithFireBase(email,password) 
+      requestApi(email,password)
+      .then((res) => {
+      // console.log(res)
+      if(res.data?.status === "ACTIVE" ){
+          signInWithFireBase(email,password)
+          .then((fbRes) => {
+            console.log(fbRes)
+            let token = fbRes.user
+            const {accessToken} = token
+            // console.log(accessToken)
+            storeData("accessToken", accessToken)
+            console.log(storeData("accessToken", accessToken))
+            if(fbRes !== null){
+              history.push("/")
+             
+            }else{
+              // console.log("Sony")
+              setErrorMessage("Invalid Credentials, Please contact administartor")
+            }
+          }).catch((e) => {
+            // console.log(e)
+          })
+      }
+      if(res.statusCode === 400){
+         errorMsg = res.message
+          setErrorMessage(errorMsg)
+          
+      }
+      })
+      .catch((e) => {
+      console.log(e)
+      
+      })
   };
 
-  // admin@tingisha.com
-  // 12345678
-  
 
   return (
     <div className="app-bg-container">
@@ -88,7 +120,9 @@ function Login(props) {
             <div className="error">{formik.errors.password}</div>
           ) : null}
 
-          <Button className="mt-2 button" type="submit">
+          {errorMessage ? (<p className = "error">{errorMessage}</p>) : null}
+
+          <Button className="mt-2 button" type="submit" >
             Login
           </Button>
         </form>
@@ -101,3 +135,6 @@ function Login(props) {
 }
 
 export default withRouter(Login);
+
+
+
