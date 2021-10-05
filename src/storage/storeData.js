@@ -7,3 +7,5 @@ export const storeData = async (key, value) => {
   };
 
   export const getData = async (key) => localStorage.getItem(`${key}`);
+
+  export const removeData = async (key) => localStorage.removeItem(`${key}`);

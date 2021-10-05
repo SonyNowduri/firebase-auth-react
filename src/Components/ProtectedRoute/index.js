@@ -15,3 +15,20 @@
 // }
 
 // export default PrivateRoute
+// import Cookies from 'js-cookie'
+import {Redirect, Route} from 'react-router-dom'
+import { getData } from '../../storage/storeData'
+// import Home from '../Home'
+
+const ProtectedRoute =async props => {
+  
+  const tokenDetails = await getData('accessToken') 
+  console.log(tokenDetails)
+  if (tokenDetails === undefined) {
+    return <Redirect to="/login" />
+  }
+  return <Route {...props} />
+}
+
+export default ProtectedRoute
+

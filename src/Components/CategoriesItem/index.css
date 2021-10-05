@@ -15,3 +15,6 @@
     margin:20px;
     flex-wrap:wrap;
 }
+.link-item{
+    text-decoration: none;
+}
