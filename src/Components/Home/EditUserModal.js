@@ -1,11 +1,12 @@
 import {Input,Modal} from 'antd'
 // import Modal from 'antd/lib/modal/Modal'
 import React,{ useState } from 'react'
-import 'antd/dist/antd.css'
+
 
 export default function EditUserModal(props) {
     console.log(props)
-    const {showModal,editObject,onSaveDataList,closeModal} = props
+    const {showModal,editObject,onSaveDataList,closeModal,disabled,head} = props
+    console.log(disabled)
     const {name,email,gender,status} = editObject
     console.log(editObject)
 
@@ -39,24 +40,25 @@ export default function EditUserModal(props) {
 
     }
 
+    
 
     return (
-           <Modal style={{opacity:1}} title="Edit User" fade={false} visible={showModal} onCancel={closeModal} onOk={onSaveData} okText="Save">
+           <Modal style={{opacity:1}} title={head} fade={false} visible={showModal} onCancel={closeModal} onOk={onSaveData} okText="Save">
                 <div>
                 <label htmlFor="name">Name</label>
-                <Input id="name" defaultValue={name}  onChange={(e)=> onChangeName(e.target.value)} />
+                <Input disabled={disabled} id="name" defaultValue={name}  onChange={(e)=> onChangeName(e.target.value)} />
                 </div>
                 <div>
                 <label htmlFor="email">Email</label>
-                <Input id="name" defaultValue={email} onChange={(e)=> onChangeEmail(e.target.value)}/>
+                <Input disabled={disabled} id="name" defaultValue={email} onChange={(e)=> onChangeEmail(e.target.value)}/>
                 </div>
                 <div>
                 <label htmlFor="gender">Gender</label>
-                <Input  id="gender" defaultValue={gender}  onChange={(e)=> onChangeGender(e.target.value)}/>
+                <Input disabled={disabled} id="gender" defaultValue={gender}  onChange={(e)=> onChangeGender(e.target.value)}/>
                 </div>
                 <div>
                 <label htmlFor="Status">Status</label>
-                <Input  id="role" defaultValue={status}  onChange={(e)=> onChangeStatus(e.target.value)}/>
+                <Input disabled={disabled}  id="role" defaultValue={status}  onChange={(e)=> onChangeStatus(e.target.value)}/>
                 </div>
             </Modal>
             

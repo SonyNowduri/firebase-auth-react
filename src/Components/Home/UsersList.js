@@ -4,22 +4,26 @@ import EditUserModal from './EditUserModal';
 import {Button} from 'react-bootstrap'
 import DeleteModal from './DeleteModal';
 import { Card} from 'react-bootstrap'
+import {Modal} from 'antd'
 
 
 export default function UsersList(props) {
     const {userDetails,deleteUser} = props
+    const {confirm} = Modal
     const{id,name,email,gender,status} = userDetails
 
     const [showModal,setShowModal] = useState(false)
+    const [showEditModal, setShowEditModal] = useState(false)
     const [showDeleteModal,setshowDeleteModal] = useState(false)
     const [editObject,setEditObject] = useState([])
+    const [isDisabled,setIsDisabled] = useState(false)
 
    
     
 
     const getEditData = () => {
         // console.log("Sony",id)
-        setShowModal(true)
+        setShowEditModal(true)
         setEditObject(userDetails)
         console.log(userDetails,id)
        
@@ -27,18 +31,25 @@ export default function UsersList(props) {
 
     const getDeleteData = () =>{
         console.log("DEleted",id)
-        // deleteUser(id)
-        setshowDeleteModal(true)
-
+       confirm({
+           title: "Are you sure you want to Delete? ",
+           onOk(){deleteUser(id)}
+       })
 
     }
 
     const closeModal = () =>{
-        setShowModal(false)
+            setShowModal(false)
     }
+
+    const closeEditModal = () =>{
+        setShowEditModal(false)
+}
 
     const getViewData = () => {
         setShowModal(true)
+        setIsDisabled(true)
+        setEditObject(userDetails)
     }
 
     const viewTemplete = {
@@ -73,7 +84,7 @@ export default function UsersList(props) {
             editObject.gender = gender;
             editObject.status = status;
         }
-         closeModal()
+         closeEditModal()
         
     }
 
@@ -87,14 +98,14 @@ export default function UsersList(props) {
                     <Card.Text>Status: {status}</Card.Text>
                 </Card.Body>
                 <div style={{display:'flex',flexDirection:'row', justifyContent:'space-between',width:'50%',marginBottom:'15px'}}>
-                <AiFillInfoCircle onClick={getViewData}/>
-                <AiFillEdit onClick={getEditData} />
-                < AiFillDelete onClick={getDeleteData} /> 
+                <AiFillInfoCircle style={{cursor:"pointer"}} onClick={() => getViewData()}/>
+                <AiFillEdit style={{cursor:"pointer"}} onClick={getEditData} />
+                < AiFillDelete style={{cursor:"pointer"}} onClick={getDeleteData} /> 
                 </div>    
             </Card>
             <div>
-                {showModal && (<EditUserModal showModal={showModal}  editObject={editObject} onSaveDataList={onSaveDataList} closeModal={closeModal}/>)}
-                {showModal && (<EditUserModal showModal={showModal}  editObject={editObject}  closeModal={closeModal}/>)}
+                {showEditModal && (<EditUserModal showModal={showEditModal} head="Edit User" disabled={false}  editObject={editObject} onSaveDataList={onSaveDataList} closeModal={closeEditModal}/>)}
+                {showModal && (<EditUserModal showModal={showModal} head="View User" disabled={true}  editObject={editObject}  closeModal={closeModal}/>)}
                 {/* {showDeleteModal && (<EditUserModal showModal={showModal}  closeModal={closeModal} deleteUser={deleteUser}/>)} */}
             </div>
             

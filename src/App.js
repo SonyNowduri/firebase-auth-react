@@ -9,7 +9,9 @@ import ServicesCom from './Components/ServicesCom'
 import ProtectedRoute from './Components/ProtectedRoute'
 import Post from './Components/Home/Post'
 import Put from './Components/Home/Put'
-import Delete from './Components/Home/Delete'
+import Delete from './Components/Home/Delete';
+
+import 'antd/dist/antd.css';
 
 // import { AuthContext, AuthProvider } from './contexts/AuthContext'
 // import PrivateRoute from './PrivateRoute'
