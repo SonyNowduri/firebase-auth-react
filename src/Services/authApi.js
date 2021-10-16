@@ -1,7 +1,7 @@
 import { authFirebase } from '../firebase'
 import {signInWithEmailAndPassword } from "firebase/auth";
 import { getData } from '../storage/storeData';
-import { baseApiPath, apiPaths } from './apiConstants';
+import { baseApiPath, apiPaths,baseUrl} from './apiConstants';
 
 
 // FireBase Authentication
@@ -136,3 +136,149 @@ export const getServicesApi = async () => {
       console.log(error)
   }
 }
+
+
+// get all users API
+
+export const getUsersApi = async () => {
+  try{
+      const usersUrl =  baseUrl+apiPaths.USERS
+
+      const options = {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        method: "GET",
+      
+      }
+      const usersResponse = await fetch(usersUrl,options)
+      const usersData = await usersResponse.json() 
+      // console.log(usersData)
+      return usersData.data
+      
+  }
+  catch(error){
+      console.log(error)
+  }
+}
+// get user by id
+export const getUsersByIdApi = async (id) => {
+  try{
+      const usersUrl =  baseUrl+apiPaths.USERS+`${id}`
+
+      const options = {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        method: "GET",
+      
+      }
+      const usersResponse = await fetch(usersUrl,options)
+      const usersData = await usersResponse.json() 
+      console.log(usersData)
+      return usersData.data
+      
+  }
+  catch(error){
+      console.log(error)
+  }
+}
+
+
+
+
+// put api
+export const getUpdatedUserApi = async (id,data) => {
+  try{
+      const usersUrl =  baseUrl+apiPaths.USERS+`${id}`
+
+     
+
+      const options = {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer d039e345dc13024ae732c59ddf67243b17a52729d970d1431888ae2e8f7390cc "
+        },
+        method: "PUT",
+        body: JSON.stringify(data)
+      
+      }
+      console.log(options)
+      const usersResponse = await fetch(usersUrl,options)
+      const usersData = await usersResponse.json() 
+      console.log(usersData)
+      return usersData.data
+      
+  }
+  catch(error){
+      console.log(error)
+  }
+}
+
+
+
+// post
+export const creadtedUserApi = async (data) => {
+  try{
+      const usersUrl =  baseUrl+apiPaths.USERS
+
+      // const data = {
+      //   "name": "Sony",
+      //   "email": "sony2@gmail.com",
+      //   "gender": "Female", 
+      //   "status": "Active"
+      // }
+      const options = {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer d039e345dc13024ae732c59ddf67243b17a52729d970d1431888ae2e8f7390cc "
+        },
+        method: "POST",
+        body: JSON.stringify(data)
+
+      
+      }
+      console.log(options)
+      const usersResponse = await fetch(usersUrl,options)
+      const usersData = await usersResponse.json() 
+      console.log(usersData)
+      return usersData.data
+      
+  }
+  catch(error){
+      console.log(error)
+  }
+}
+
+// delete
+
+export const deleteUserApi = async (id) => {
+  try{
+      const usersUrl =  baseUrl+apiPaths.USERS+`${id}`
+      const options = {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer d039e345dc13024ae732c59ddf67243b17a52729d970d1431888ae2e8f7390cc "
+        },
+        method: "DELETE",
+        
+      }
+      const usersResponse = await fetch(usersUrl,options)
+      const usersData = await usersResponse.json() 
+      console.log(usersData)
+      return usersData
+      
+  }
+  catch(error){
+      console.log(error)
+  }
+}
+
+
+
+
