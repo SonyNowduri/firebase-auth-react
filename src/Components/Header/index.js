@@ -1,17 +1,16 @@
-import {Link, withRouter,useHistory} from 'react-router-dom'
-import { removeData } from '../../storage/storeData'
+import { Link, withRouter, useHistory } from "react-router-dom";
+import { removeData } from "../../storage/storeData";
 
 // import Cookie from 'js-cookie'
 
-import './index.css'
+import "./index.css";
 
-const Header = props => {
-
-    const history = useHistory()
-  const onClickLogout = async() => {
-    await removeData('accessToken')
-    history.replace('/login')
-  }
+const Header = (props) => {
+  const history = useHistory();
+  const onClickLogout = async () => {
+    await removeData("accessToken");
+    history.replace("/login");
+  };
   return (
     <nav className="nav-header">
       <div className="nav-content">
@@ -46,13 +45,8 @@ const Header = props => {
             className="logout-icon"
           />
         </button>
-
-
-
-
-
       </div>
     </nav>
-  )
-}
-export default withRouter(Header)
+  );
+};
+export default withRouter(Header);
