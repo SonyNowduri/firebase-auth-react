@@ -20,19 +20,14 @@
 //             setCurrentUser(user)
 //         })
 //     }, [])
-    
-
-    
 
 //     const value = {
 //         currentUser
 //     }
 
-    
 //     return (
 //         <AuthContext.Provider value={{value}}>
 //             {children}
 //         </AuthContext.Provider>
 //     )
 // }
-
